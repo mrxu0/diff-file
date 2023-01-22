@@ -15,7 +15,7 @@
         class="border-r border-r-black/40 overflow-y-auto w-1/2"
         @change="oldChangeHandler"
       />
-      <!-- <button @click=  "compareHandler">比较</button> -->
+      <button @click="compareHandler">比较</button>
       <FileSelect
         class="overflow-auto w-1/2"
         text="比较文件"

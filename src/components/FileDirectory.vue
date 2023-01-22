@@ -1,45 +1,27 @@
 <template>
   <div class="flex flex-col">
-    <p
+    <!-- <p
       v-for="[key, value] in props.files"
       @click="clickHandler(value)"
       class="flex"
     >
       <span><statusIcon :file="value"></statusIcon></span>
       <span>{{ key }}</span>
-    </p>
+    </p> -->
+    <FileFlodItem v-if="fileFold" :folder="fileFold"></FileFlodItem>
   </div>
 </template>
 <script lang="tsx" setup>
-import Add from "~icons/material-symbols/add";
-import DeleteOutline from "~icons/material-symbols/delete-outline";
-import MaterialSymbolsChangeCircleRounded from "~icons/material-symbols/change-circle-rounded";
-import MaterialSymbolsChangeHistory from "~icons/material-symbols/change-history";
-import {
-  FileStatusEnum,
-  StatusFileInfo,
-  StatusFileInfoMap,
-} from "../hooks/getFileContent";
+import FileFlodItem from "./FileFlodItem.vue";
+import { StatusFileInfo, StatusFileInfoMap } from "../hooks/getFileContent";
+import { usePathFold } from "../hooks/pathFold";
 
 const props = defineProps<{
   files: StatusFileInfoMap;
 }>();
 
 const emit = defineEmits<(e: "selectFile", file: StatusFileInfo) => void>();
-
-function statusIcon({ file }: { file: StatusFileInfo }) {
-  if ("status" in file) {
-    if (file.status === FileStatusEnum.add) {
-      return <Add />;
-    } else if (file.status === FileStatusEnum.del) {
-      return <DeleteOutline />;
-    } else if (file.status === FileStatusEnum.change) {
-      return <MaterialSymbolsChangeCircleRounded />;
-    } else {
-      return MaterialSymbolsChangeHistory;
-    }
-  }
-}
+const { fileFold } = usePathFold(props.files);
 function clickHandler(file: StatusFileInfo) {
   emit("selectFile", file);
 }
