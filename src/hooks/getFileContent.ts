@@ -49,7 +49,7 @@ export type FileInfoMap = Map<string, FileInfo>;
 export type StatusFileInfoMap = Map<string, StatusFileInfo>;
 
 export function useGetFileContent(files: Ref<FileList | null>) {
-  const contents = ref<StatusFileInfoMap>(new Map());
+  const contents = ref<FileInfoMap>(new Map());
 
   watch(files, () => {
     contents.value.clear();

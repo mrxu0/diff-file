@@ -7,14 +7,14 @@ import {
 } from "./getFileContent";
 
 export function useGetFileCompare(
-  oldFiles: Ref<StatusFileInfoMap>,
-  newFiles: Ref<StatusFileInfoMap>
+  oldFiles: Ref<FileInfoMap>,
+  newFiles: Ref<FileInfoMap>
 ) {
   const compareFile = computed(() => {
     const typeFile: StatusFileInfoMap = new Map();
     for (const [path, infoStatus] of newFiles.value) {
-      const file = oldFiles.value.get(path) as FileInfo;
-      const info = infoStatus as FileInfo;
+      const file = oldFiles.value.get(path);
+      const info = infoStatus;
       if (file) {
         if (file.content !== info.content) {
           typeFile.set(path, {
@@ -41,7 +41,7 @@ export function useGetFileCompare(
       if (!file) {
         typeFile.set(path, {
           status: FileStatusEnum.del,
-          oldFile: info as FileInfo,
+          oldFile: info,
         });
       }
     }

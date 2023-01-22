@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <p v-for="[key, value] in props.files" class="flex gap-2">
+  <div class="flex flex-col">
+    <p
+      v-for="[key, value] in props.files"
+      @click="clickHandler(value)"
+      class="flex"
+    >
       <span><statusIcon :file="value"></statusIcon></span>
       <span>{{ key }}</span>
     </p>
@@ -21,6 +25,8 @@ const props = defineProps<{
   files: StatusFileInfoMap;
 }>();
 
+const emit = defineEmits<(e: "selectFile", file: StatusFileInfo) => void>();
+
 function statusIcon({ file }: { file: StatusFileInfo }) {
   if ("status" in file) {
     if (file.status === FileStatusEnum.add) {
@@ -33,5 +39,8 @@ function statusIcon({ file }: { file: StatusFileInfo }) {
       return MaterialSymbolsChangeHistory;
     }
   }
+}
+function clickHandler(file: StatusFileInfo) {
+  emit("selectFile", file);
 }
 </script>
